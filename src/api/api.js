@@ -37,10 +37,10 @@ router.post('/api/v1/:model', (req,res, next) => {
     .then( data => sendJSON(res,data) )
     .catch(next);
 });
-// router.put('/api/v1/:model', (req,res, next) => {
-//   let chore = new req.model(res.body);
-//   chore.save()
-//     .then( data => sendJSON(res,data) )
-//     .catch(next);
-// });
+router.put('/api/v1/chores/:id', (req,res, next) => {
+  let chore = new req.model(res.body);
+  chore.save()
+    .then( data => sendJSON(res,data) )
+    .catch(next);
+});
 export default router;

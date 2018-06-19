@@ -1,37 +1,53 @@
 'use strict';
-
+const debug = require('debug')('api');
+import morgan from 'morgan';
+import cors from 'cors';
 import express from 'express';
+
+import errorHandler from './middleware/errors.js';
+import notFound from './middleware/404.js';
+
 let app = express();
-//export default app;
+
+let corsOptions = {
+  origin: 'http://index',
+};
+app.use(cors(corsOptions));
+
+app.use(morgan('dev'));
+
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 import router from './api/api.js';
 
 app.use(router);
-// Flag to know if we are up and going
+
+app.use(notFound);
+
+app.use(errorHandler);
+
 
 let isRunning = false;
-//let server;
-export function start(port) {
+let server = null;
+function start(port) {
   if (!isRunning) {
-    app.listen(port, (err) => {
+    server = app.listen(port, (err) => {
       if (err) {
         throw err;
       }
-      // Tick the running flag
       isRunning = true;
-      console.log('Server is up on port', port);
+      debug('Server is up on port', port);
     });
   }
   else {
-    console.log('Server is already running');
+    debug('Server is already running');
   }
 }
-export function stop() {
-  app.close(() => {
+function stop() {
+  server && server.close(() => {
     isRunning = false;
     console.log('Server has been stopped');
   });
 }
-//export {start, stop};
+export {start, stop};

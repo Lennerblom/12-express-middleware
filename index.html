@@ -1,0 +1,22 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>CORS test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+<body>
+    <h1>CORS Test</h1>
+    
+</body>
+<script src="http://code.jquery.com/jquery-3.3.1.js"></script>
+<script>
+  let URL = 'http://172.16.0.66:3000/api/v1/notes';
+  $.getJSON(URL)
+  .then(data => console.log('Got Remote Data: ', data) )
+  .catch(err => console.error('Got Remote Error: ', err));
+</script>
+</html>
